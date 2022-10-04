@@ -1,0 +1,22 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from scipy import stats
+import scipy
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from statsmodels.stats.multicomp import MultiComparison
+
+df2 = pd.read_csv("C:/Users/User/Desktop/Intermediate_stat/antiseptics.csv")
+df2.rename(columns={'Antiseptic Type ': "AS", "Number of applications": "Count"}, inplace=True)
+df2
+
+df2_pivot = pd.pivot_table(df2,index='AS',columns='Clinic',values="Count")
+df2_pivot
+
+#assumption: we have more than 5 in each cell so the assumption is met for chi-square
+
+#run the test
+stats.chi2_contingency(df2_pivot)
+
+#Interpretation: p-value > 0.05, it looks like there is not a significant relationship between antiseptics and clinics
+#Conclusion: the usage of the four antiseptics is the same in the 3 clinics
